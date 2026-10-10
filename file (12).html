@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة القرآن والسنة - الذكاء الاصطناعي الإسلامي</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arabic Typesetting', 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #1a472a 0%, #2d5a3d 100%);
+            color: #333;
+            line-height: 1.8;
+        }
+
+        header {
+            background: linear-gradient(135deg, #0f3d1f 0%, #1a5a2e 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .section h2 {
+            color: #0f3d1f;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 3px solid #1a5a2e;
+            padding-bottom: 15px;
+        }
+
+        .search-box {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 2px solid #1a5a2e;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+        }
+
+        .search-box button {
+            padding: 12px 25px;
+            background: #1a5a2e;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .search-box button:hover {
+            background: #0f3d1f;
+        }
+
+        .results {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .result-item {
+            background: #f8f8f8;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-right: 4px solid #1a5a2e;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .result-item:hover {
+            background: #e8f5e9;
+        }
+
+        .result-item h3 {
+            color: #0f3d1f;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .result-item p {
+            color: #666;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .quran-reference {
+            display: inline-block;
+            background: #1a5a2e;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 5px 0;
+            font-size: 0.85em;
+        }
+
+        .ai-response {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            border-right: 4px solid #1a5a2e;
+        }
+
+        .ai-response h4 {
+            color: #0f3d1f;
+            margin-bottom: 10px;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .quick-links button {
+            padding: 12px;
+            background: #f0f0f0;
+            border: 2px solid #1a5a2e;
+            color: #0f3d1f;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .quick-links button:hover {
+            background: #1a5a2e;
+            color: white;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1em;
+            color: #666;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .tab-button.active {
+            color: #1a5a2e;
+            border-bottom-color: #1a5a2e;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1a5a2e 0%, #0f3d1f 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1a5a2e;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        footer {
+            background: #0f3d1f;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        .verse-container {
+            background: #fff9c4;
+            padding: 20px;
+            border-right: 5px solid #1a5a2e;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .verse-text {
+            font-size: 1.3em;
+            color: #0f3d1f;
+            font-weight: bold;
+            margin-bottom: 10px;
+            line-height: 2;
+        }
+
+        .verse-reference {
+            color: #1a5a2e;
+            font-weight: bold;
+        }
+
+        .hadith-container {
+            background: #f3e5f5;
+            padding: 20px;
+            border-right: 5px solid #6a1b9a;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .hadith-text {
+            font-size: 1.1em;
+            color: #4a148c;
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+
+        .hadith-narrator {
+            color: #6a1b9a;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+            color: #1a5a2e;
+            text-decoration: underline;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #0f3d1f;
+            color: white;
+            text-align: right;
+            padding: 10px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            right: 50%;
+            transform: translateX(50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.85em;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🕌 منصة القرآن والسنة</h1>
+        <p>منصة إسلامية متقدمة تجمع بين القرآن الكريم والسنة النبوية والذكاء الاصطناعي</p>
+    </header>
+
+    <div class="container">
+        <div class="stats">
+            <div class="stat-card">
+                <h3>6236</h3>
+                <p>آية قرآنية</p>
+            </div>
+            <div class="stat-card">
+                <h3>114</h3>
+                <p>سورة قرآنية</p>
+            </div>
+            <div class="stat-card">
+                <h3>∞</h3>
+                <p>إجابات ذكية</p>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- قسم البحث في القرآن -->
+            <div class="section">
+                <h2>📖 البحث في القرآن الكريم</h2>
+                
+                <div class="search-box">
+                    <input 
+                        type="text" 
+                        id="quranSearch" 
+                        placeholder="ابحث عن آية أو موضوع قرآني..."
+                    >
+                    <button onclick="searchQuran()">بحث</button>
+                </div>
+
+                <div class="quick-links">
+                    <button onclick="loadSurah(1)">الفاتحة</button>
+                    <button onclick="loadSurah(2)">البقرة</button>
+                    <button onclick="loadSurah(36)">يس</button>
+                    <button onclick="loadSurah(67)">الملك</button>
+                    <button onclick="loadSurah(113)">الفلق</button>
+                    <button onclick="loadSurah(114)">الناس</button>
+                </div>
+
+                <div class="loading" id="quranLoading">
+                    <div class="spinner"></div>
+                    <p>جاري البحث...</p>
+                </div>
+
+                <div class="results" id="quranResults">
+                    <p style="color: #999; text-align: center;">اختر سورة أو ابحث عن موضوع</p>
+                </div>
+            </div>
+
+            <!-- قسم الأسئلة الذكية -->
+            <div class="section">
+                <h2>🤖 مساعد ذكي إسلامي</h2>
+                
+                <div class="tabs">
+                    <button class="tab-button active" onclick="switchTab('quran-qa')">أسئلة قرآنية</button>
+                    <button class="tab-button" onclick="switchTab('sunnah-qa')">أسئلة سنة</button>
+                    <button class="tab-button" onclick="switchTab('custom-qa')">سؤال حر</button>
+                </div>
+
+                <!-- أسئلة قرآنية -->
+                <div class="tab-content active" id="quran-qa">
+                    <div class="quick-links">
+                        <button onclick="askAI('ما هو تفسير سورة الفاتحة؟')">تفسير الفاتحة</button>
+                        <button onclick="askAI('ما أعظم آيات القرآن؟')">أعظم الآيات</button>
+                        <button onclick="askAI('كم مرة ذكر الجنة في القرآن؟')">ذكر الجنة</button>
+                        <button onclick="askAI('ما حكم الزكاة في القرآن؟')">أحكام الزكاة</button>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="quranQA" placeholder="اسأل عن موضوع قرآني...">
+                        <button onclick="askAI(document.getElementById('quranQA').value)">أرسل</button>
+                    </div>
+                </div>
+
+                <!-- أسئلة السنة -->
+                <div class="tab-content" id="sunnah-qa">
+                    <div class="quick-links">
+                        <button onclick="askAI('ما أهم أحاديث السنة النبوية؟')">أهم الأحاديث</button>
+                        <button onclick="askAI('ما الأحاديث الصحيحة؟')">الأحاديث الصحيحة</button>
+                        <button onclick="askAI('كم مرة كان النبي يصلي قيام الليل؟')">قيام الليل</button>
+                        <button onclick="askAI('ما آداب الطعام في السنة؟')">آداب الطعام</button>
+                    </div>
+                    <div class="search-box">
+                        <input type="text" id="sunnahQA" placeholder="اسأل عن موضوع سنة...">
+                        <button onclick="askAI(document.getElementById('sunnahQA').value)">أرسل</button>
+                    </div>
+                </div>
+
+                <!-- سؤال حر -->
+                <div class="tab-content" id="custom-qa">
+                    <div class="search-box">
+                        <input 
+                            type="text" 
+                            id="customQA" 
+                            placeholder="اسأل أي سؤال إسلامي..."
+                            style="min-height: 60px;"
+                        >
+                        <button onclick="askAI(document.getElementById('customQA').value)">أرسل</button>
+                    </div>
+                </div>
+
+                
